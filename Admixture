@@ -1,0 +1,3 @@
+#!/bin/bash
+admixture="/homes/zhenbin/admixture_linux-1.23/admixture"
+for((K =1; K <=10; K++)); do $admixture --cv=10 /homes/zhenbin/HapMap.bed $K;done

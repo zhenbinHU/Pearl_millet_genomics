@@ -1,0 +1,3 @@
+#convert bed format to vcf format
+
+plink --vcf PM.vcf --out PM

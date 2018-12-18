@@ -1,0 +1,25 @@
+#!/bin/bash
+tassel="/homes/zhenbin/tassel3/start_tassel.pl"
+# make the direction (UCreatWorkingDirPlugin)# 
+$tassel  -fork1 -UCreatWorkingDirPlugin -w /homes/zhenbin/millet/UNEAK/  -endPlugin -runfork1
+
+# UQseqToTagCountPlugin# 
+$tassel -Xms10g -Xmx10g -fork1 -UFastqToTagCountPlugin -w /homes/zhenbin/millet/UNEAK/ -e PstI-MspI -endPlugin -runfork1
+
+# UMergeTaxaTagCountPlugin# 
+$tassel -Xms10g -Xmx10g -fork1 -UMergeTaxaTagCountPlugin -w /homes/zhenbin/millet/UNEAK/ -c 5 -endPlugin -runfork1
+
+# UTagCountToTagPairPlugin# 
+$tassel -Xms10g -Xmx10g -fork1 -UTagCountToTagPairPlugin -w /homes/zhenbin/millet/UNEAK/ -e 0.03 -endPlugin -runfork1
+
+# UTagPairToTBTPlugin#
+$tassel -Xms10g -Xmx10g -fork1 -UTagPairToTBTPlugin -w /homes/zhenbin/millet/UNEAK/ -endPlugin -runfork1
+
+# UTBTToMapInfoPlugin#   
+$tassel -Xms10g -Xmx10g -fork1 -UTBTToMapInfoPlugin -w /homes/zhenbin/millet/UNEAK/ -endPlugin -runfork1
+
+# UMapInfoToHapMapPlugin#   
+$tassel -Xms10g -Xmx10g -fork1 -UMapInfoToHapMapPlugin -w /homes/zhenbin/millet/UNEAK/ -mnMAF 0.00 -mxMAF 0.5 -mnC 0 -mxC 1 -endPlugin -runfork1
+
+#Convert hapmap to VCF#
+$tassel -Xms10g -Xmx10g -fork1 -h /homes/zhenbin/millet/UNEAK/hapMap/HapMap.hmp.txt -export -exportType VCF -runfork1

@@ -1,0 +1,13 @@
+library(gdsfmt)
+library(SNPRelate)
+
+vcf.fn<-"pear_millet_hapmap.vcf"
+snpgdsVCF2GDS(vcf.fn, "test.gds", method="biallelic.only")
+genofile <- snpgdsOpen("test.gds")
+snpset <- snpgdsLDpruning(genofile, method=c("corr"),ld.threshold=0.5,missing=0.8)
+snpset.id <- unlist(snpset)
+
+pca <- snpgdsPCA(genofile, snp.id=snpset.id, num.thread=2)
+tab<-data.frame(sample.id = pca$sample.id,pca$eigenvect)
+write.table(tab,"pca.txt")
+
